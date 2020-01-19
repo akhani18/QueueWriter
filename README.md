@@ -8,7 +8,8 @@ Total requests: 1000
 Concurrent Requests: 10
 Payload Size: 1Kb
 
-ab -p post.txt -T application/json -n 1000 -c 10 http://localhost:8000/message
+`ab -p post.txt -T application/json -n 1000 -c 10 http://localhost:8000/message`
+
 This is ApacheBench, Version 2.3 <$Revision: 1826891 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
