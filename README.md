@@ -1,15 +1,70 @@
 # QueueWriter
 
+This is a simple service that exposes a REST endpoint to POST a payload, which is then written to an SQS queue provided by the user.
 
+## Getting Started
 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+1. Install Go - https://golang.org/doc/install
+
+2. Setup AWS credentials in your environment -
+
+```
+// Linux or OS X
+$ export AWS_ACCESS_KEY_ID=YOUR_AKID
+$ export AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY
+
+// Windows
+> set AWS_ACCESS_KEY_ID=YOUR_AKID
+> set AWS_SECRET_ACCESS_KEY=YOUR_SECRET_KEY
+```
+
+3. Create an SQS queue - https://docs.aws.amazon.com/cli/latest/reference/sqs/create-queue.html
+
+## Running the service
+
+1. Clone the git repo and navigate to the parent directory
+
+```
+$ git clone https://github.com/akhani18/QueueWriter.git
+...
+$ cd QueueWriter
+```
+
+2. Start the Service
+
+```
+$ go run main.go -n <SQS-Queue-Name> -r <aws-region>
+```
+
+3. Send a payload to the Queue
+
+```
+curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:8000/message
+```
+
+4. or, send a payload with a file
+
+```
+curl -d "@data.json" -H "Content-Type: application/json" -X POST http://localhost:8000/message
+```
 
 ## Benchmarking Results
+
 Total requests: 1000
+
 Concurrent Requests: 10
+
 Payload Size: 1Kb
 
-`ab -p post.txt -T application/json -n 1000 -c 10 http://localhost:8000/message`
+```
+$ ab -p post.txt -T application/json -n 1000 -c 10 http://localhost:8000/message
+```
 
+```
 This is ApacheBench, Version 2.3 <$Revision: 1826891 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
 Licensed to The Apache Software Foundation, http://www.apache.org/
@@ -66,3 +121,5 @@ Percentage of the requests served within a certain time (ms)
   98%    281
   99%    312
  100%    465 (longest request)
+
+```
